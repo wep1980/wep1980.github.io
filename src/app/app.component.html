@@ -1,0 +1,53 @@
+<nav class="navbar navbar-dark bg-dark">
+  <a class="navbar-brand" href="">Task App</a>
+</nav>
+
+<!--mt-2 -> Magin top 2 --- <hr/> -> Cria uma linha separadora -->
+<div class="container mt-4">
+  <h3>Tasks</h3>
+  <hr/>
+    <!--ngSubmit -> Evento que funciona quando houver click no button 
+        submit() -> Metodo criado no app.component que submete o formulario -->
+    <form [formGroup]="form" (ngSubmit)="submit()"> 
+      <div class="row"> <!-- row -> vai consumir toda linha de cima com 12 posições-->
+        <div class="col-md-6"> <!--col-md-6 -> dentro da linha acima esta sendo colocado uma colouna com 6 posições-->
+          <input type="text" class="form-control" formControlName="description">
+        </div>
+        <div class="col-md-2">
+          <button class="btn btn-primary" 
+                  type="submit" 
+                  [disabled]="!form.valid"> <!--[disabled]="!form.valid"> -> desabilita o botão ate serem digitados 4 dig -->
+                  Add
+                </button>
+        </div>
+      </div>
+  </form>
+
+  <hr/>
+
+  <div class="row">
+    <div class="col-md-7">
+      <ul class="list-group">
+
+        <!-- *ngFor="" -> Diretiva do angular que vai percorrer a lista de tasks.
+              let task -> variavel local que representa a lista de -> tasks do app.component.ts 
+              (click)="delete(task) -> Evento de click que chama o metodo delete do app.component.ts 
+               [disabled]="task.done" -> quando a tarefa for true o botao done sera desativado 
+               {{}} -> A interpolação serve para ser colocado uma expressão javaScript -->
+        <li *ngFor="let task of tasks" class="list-group-item d-flex justify-content-between align-items-center">
+          <span class="{{task.done ? 'done' : ''}}"> <!--Se a tarefa estiver feita coloca a classe css senão não faz nada-->
+            {{task.description}} {{task.doneDate}}
+          </span> 
+          <div class="btn-group">
+             <button class="btn btn-success" 
+                     [disabled]="task.done"
+                     (click)="done(task)">
+                     Done
+                    </button>
+             <button class="btn btn-danger" (click)="delete(task)">Delete</button>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
